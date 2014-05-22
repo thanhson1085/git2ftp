@@ -1,0 +1,4 @@
+<FilesMatch "run_wip.sh|run_stage.sh|run_production.sh|ftp.sh">
+	Order Allow,Deny
+	Deny from all
+</FilesMatch>

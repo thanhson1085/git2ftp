@@ -1,0 +1,39 @@
+#!bin/bash
+
+echo 'LIVE Starting...'
+expected_args=2
+e_badargs=65
+home_dir=$PWD/../
+current_time=$(date "+%Y.%m.%d-%H.%M.%S")
+
+if [ $# -ne $expected_args ]
+then
+    echo "Error: you should use command $0 old_tag new_tag"
+    exit $e_badargs
+fi
+
+cd $home_dir
+lastest_tag="$2"
+if [ $lastest_tag = "" ]
+then
+	echo "Error no tag"
+	exit
+fi
+old_tag="$1"
+if [ $old_tag = "" ]
+then
+	echo "Error no tag"
+	exit
+fi
+new_commit=`git rev-list $lastest_tag|head -n 1`
+old_commit=`git rev-list $old_tag|head -n 1`
+
+count_file=0
+for file_change in `git diff --name-only $old_commit $new_commit`
+do
+	echo "Put $file_change ..."
+	count_file=$((count_file+1))
+	bash $home_dir/deploy/ftp.sh $file_change /public_html/$file_change
+done
+
+echo "DONE!!!"
