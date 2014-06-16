@@ -26,16 +26,23 @@ then
 	echo "Error no tag"
 	exit
 fi
+
+# get lastest commit by tag name
 old_commit=`git rev-list $old_tag|head -n 1`
 
 count_file=0
+
+# get list file changed and push to FTP server
 for file_change in `git diff --name-only $old_commit HEAD@{0}`
 do
 	echo "Put $file_change ..."
 	count_file=$((count_file+1))
+    # call FTP script to push file via curl
 	bash $home_dir/deploy/ftp.sh $file_change /public_html/staging/$file_change
 done
 
+
+# Mark repository a new tag
 if [ $count_file -gt 0 ]
 then
 

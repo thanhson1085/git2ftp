@@ -65,6 +65,8 @@ set_default_curl_options
 CURL_ARGS+=(-T "$SRC_FILE")
 CURL_ARGS+=(--ftp-create-dirs)
 CURL_ARGS+=("$REMOTE_PROTOCOL://$REMOTE_HOST/${REMOTE_PATH}${DEST_FILE}")
+
+# push file to FTP server via CURL
 curl "${CURL_ARGS[@]}"
 check_exit_status "Could not upload file: '${REMOTE_PATH}$DEST_FILE'." $ERROR_UPLOAD
 
