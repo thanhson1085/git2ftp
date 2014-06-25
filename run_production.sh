@@ -1,5 +1,7 @@
 #!bin/bash
 
+REMOTE_DIR="/public_html/"
+
 echo 'LIVE Starting...'
 expected_args=2
 e_badargs=65
@@ -39,7 +41,7 @@ do
 	echo "Put $file_change ..."
 	count_file=$((count_file+1))
     # call ftp script to push file via curl
-	bash $home_dir/deploy/ftp.sh $file_change /public_html/$file_change
+	bash $home_dir/deploy/ftp.sh $file_change $REMOTE_DIR$file_change
 done
 
 echo "DONE!!!"
